@@ -668,8 +668,11 @@ const App = () => {
                                 if (['-', '+', 'e', 'E', ',', '.', ' '].includes(e.key)) e.preventDefault();
                               }}
                               onChange={e => {
-                                let val = e.target.value.replace(/[^0-9]/g, '');
-                                updateF("repsCompleted", ei, si, val);
+                                let val = e.target.value;
+                                val = val.replace(/[^0-9]/g, '');
+                                if (val === '' || (Number(val) > 0 && Number.isInteger(Number(val)))) {
+                                  updateF("repsCompleted", ei, si, val);
+                                }
                               }}
                               className={`w-full h-11 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-center font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-500 transition-all ${isCompleted ? 'opacity-70' : ''}`}
                             />
