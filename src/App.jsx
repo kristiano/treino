@@ -208,6 +208,19 @@ const App = () => {
     setSess(p => ({ ...p, exercises: p.exercises.map((ex, i) => { if (i !== ei) return ex; const a = [...ex[f]]; a[si] = v; return { ...ex, [f]: a }; }) }));
   };
 
+  const addSet = (ei) => {
+    setSess(p => {
+      const next = { ...p, exercises: [...p.exercises] };
+      const ex = { ...next.exercises[ei] };
+      ex.sets += 1;
+      ex.completed = [...ex.completed, "idle"];
+      ex.weights = [...ex.weights, ""];
+      ex.repsCompleted = [...(ex.repsCompleted || Array(ex.sets - 1).fill("")), ""];
+      next.exercises[ei] = ex;
+      return next;
+    });
+  };
+
   const finish = () => {
     const rec = {
       id: sess.id || Date.now(),
@@ -707,6 +720,11 @@ const App = () => {
                         );
                       })}
                     </div>
+
+                    <button onClick={() => addSet(ei)} className="w-full mt-4 py-3 rounded-xl border border-dashed border-blue-300 dark:border-blue-900/50 text-blue-500 dark:text-blue-400 font-bold text-sm bg-blue-50/50 dark:bg-blue-900/10 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+                      <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-lg leading-none pb-0.5">+</div> Adicionar Série
+                    </button>
+
                   </div>
                 </div>
               </div>

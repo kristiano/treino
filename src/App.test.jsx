@@ -48,11 +48,7 @@ describe('App Input Validation', () => {
 
     test('Reps input should reject letters and negative signs', async () => {
         // Find reps input fields (they don't have a fixed placeholder text, it depends on the target reps)
-        // We can find them by inputMode="numeric"
-        const repsInputs = screen.getAllByRole('spinbutton');
-        // Get the first reps input (depends on DOM order, second input typically)
-        // weight is decimal, reps is numeric
-        const allNumericInputs = screen.getAllByRole('spinbutton').filter(el => el.getAttribute('inputmode') === 'numeric');
+        const allNumericInputs = screen.getAllByRole('textbox').filter(el => el.getAttribute('inputmode') === 'numeric');
         const firstRepsInput = allNumericInputs[0];
 
         // Simulate typing text
@@ -84,7 +80,7 @@ describe('App Input Validation', () => {
         expect(firstWeightInput.value).toBe('');
 
         // Test on reps input
-        const allNumericInputs = screen.getAllByRole('spinbutton').filter(el => el.getAttribute('inputmode') === 'numeric');
+        const allNumericInputs = screen.getAllByRole('textbox').filter(el => el.getAttribute('inputmode') === 'numeric');
         const firstRepsInput = allNumericInputs[0];
 
         firstRepsInput.focus();
