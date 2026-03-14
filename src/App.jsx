@@ -430,7 +430,7 @@ const App = () => {
             <div className="flex justify-between items-center px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
               <div>
                 <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Escolha seu Treino</h3>
-                <p className="text-xs font-medium text-slate-400 mt-0.5">Sexta-feira • Dia livre 🎯</p>
+                <p className="text-xs font-medium text-slate-400 mt-0.5">{today.day}{['Segunda','Terça','Quarta','Quinta'].includes(today.day) ? '-feira' : today.day === 'Sábado' ? '' : today.day === 'Domingo' ? '' : '-feira'} • Dia livre 🎯</p>
               </div>
               <button onClick={() => setShowWorkoutPicker(false)} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors active:scale-95">
                 <X className="w-5 h-5" />
@@ -489,7 +489,7 @@ const App = () => {
           <div onClick={() => checkAndStartW(today.workout)} className="mx-4 mb-8 rounded-[2rem] p-6 cursor-pointer border shadow-lg transition-transform active:scale-[0.98]" style={{ backgroundColor: tm === 'dark' ? `${tw.color}11` : `${tw.color}08`, borderColor: `${tw.color}33`, boxShadow: tm === 'light' ? `0 10px 30px -10px ${tw.color}40` : 'none' }}>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest" style={{ backgroundColor: `${tw.color}25`, color: tw.color }}>Treino de Hoje</span>
-              <span className="text-[11px] font-semibold text-slate-500">{today.day}-feira</span>
+              <span className="text-[11px] font-semibold text-slate-500">{['Sábado','Domingo'].includes(today.day) ? today.day : `${today.day}-feira`}</span>
             </div>
             <div className="flex items-center gap-5">
               <div className="text-5xl drop-shadow-sm">{tw.icon}</div>
@@ -508,7 +508,7 @@ const App = () => {
         <div className="mx-4 mb-8 rounded-[2rem] p-6 border shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f111, #8b5cf611)', borderColor: '#6366f130' }}>
           <div className="flex items-center gap-2 mb-4">
             <span className="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400">Dia Livre</span>
-            <span className="text-[11px] font-semibold text-slate-500">Sexta-feira</span>
+            <span className="text-[11px] font-semibold text-slate-500">{['Sábado','Domingo'].includes(today.day) ? today.day : `${today.day}-feira`}</span>
           </div>
           <div className="flex items-center gap-5 mb-6">
             <div className="text-5xl drop-shadow-sm">🎯</div>

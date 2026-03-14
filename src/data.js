@@ -55,6 +55,6 @@ export const WORKOUTS = {
 export const SCHEDULE = [
     { day: "Segunda", workout: "A" }, { day: "Terça", workout: "B" },
     { day: "Quarta", workout: "C" }, { day: "Quinta", workout: "D" },
-    { day: "Sexta", workout: null, free: true }, { day: "Sábado", workout: null },
-    { day: "Domingo", workout: null },
+    { day: "Sexta", workout: null, free: true }, { day: "Sábado", workout: null, free: true },
+    { day: "Domingo", workout: null, free: true },
 ];
