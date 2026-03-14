@@ -27,6 +27,7 @@ const App = () => {
   const [activeVideo, setActiveVideo] = useState(null);
   const [expandedEx, setExpandedEx] = useState(0);
   const [resumeModal, setResumeModal] = useState(null);
+  const [showWorkoutPicker, setShowWorkoutPicker] = useState(false);
 
   const today = todayW();
 
@@ -422,6 +423,39 @@ const App = () => {
           </div>
         </div>
       )}
+
+      {showWorkoutPicker && (
+        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-t-[2rem] w-full max-w-md shadow-2xl pb-10 animate-in slide-in-from-bottom duration-300">
+            <div className="flex justify-between items-center px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Escolha seu Treino</h3>
+                <p className="text-xs font-medium text-slate-400 mt-0.5">Sexta-feira • Dia livre 🎯</p>
+              </div>
+              <button onClick={() => setShowWorkoutPicker(false)} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors active:scale-95">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="px-4 pt-4 space-y-3">
+              {Object.values(WORKOUTS).map(w => (
+                <button key={w.id} onClick={() => { setShowWorkoutPicker(false); checkAndStartW(w.id); }}
+                  className="w-full flex items-center gap-4 p-4 rounded-2xl border active:scale-[0.98] transition-all text-left"
+                  style={{ backgroundColor: tm === 'dark' ? `${w.color}11` : `${w.color}08`, borderColor: `${w.color}30` }}>
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0" style={{ backgroundColor: `${w.color}20` }}>
+                    {w.icon}
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-extrabold text-slate-900 dark:text-white">{w.name}</div>
+                    <div className="text-xs font-medium text-slate-500 mt-0.5">{w.target}</div>
+                    <div className="text-[10px] font-semibold mt-1" style={{ color: w.color }}>{w.exercises.length} exercícios • Intervalos {w.rest}</div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 flex-shrink-0" style={{ color: w.color }} />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </Fragment>
   );
 
@@ -470,7 +504,26 @@ const App = () => {
             </div>
           </div>
         );
-      })() : (
+      })() : today.free ? (
+        <div className="mx-4 mb-8 rounded-[2rem] p-6 border shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f111, #8b5cf611)', borderColor: '#6366f130' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400">Dia Livre</span>
+            <span className="text-[11px] font-semibold text-slate-500">Sexta-feira</span>
+          </div>
+          <div className="flex items-center gap-5 mb-6">
+            <div className="text-5xl drop-shadow-sm">🎯</div>
+            <div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white leading-tight mb-1">Escolha seu Treino</div>
+              <div className="text-xs font-semibold text-slate-500">Você tem liberdade para treinar o que quiser hoje!</div>
+            </div>
+          </div>
+          <button onClick={() => setShowWorkoutPicker(true)}
+            className="w-full py-3.5 rounded-2xl font-bold text-sm text-white flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-transform"
+            style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
+            <Play className="w-4 h-4 fill-white" /> Escolher Treino
+          </button>
+        </div>
+      ) : (
         <div className="mx-4 mb-8 rounded-[2rem] p-8 bg-white dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 text-center shadow-sm">
           <div className="text-5xl mb-3">🛌</div>
           <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">Dia de Descanso</div>
@@ -763,9 +816,18 @@ const App = () => {
                     <div className="text-[10px] text-slate-500">{w.target}</div>
                   </div>
                 </div>
+              ) : s.free ? (
+                <div onClick={() => setShowWorkoutPicker(true)} className="flex items-center gap-3 cursor-pointer flex-1 p-3 rounded-xl active:scale-[0.98] transition-all" style={{ background: 'linear-gradient(135deg, #6366f111, #8b5cf611)', border: '1px solid #6366f130' }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ backgroundColor: '#6366f120' }}>🎯</div>
+                  <div className="flex-1">
+                    <div className="font-bold text-slate-900 dark:text-white leading-tight">Dia Livre</div>
+                    <div className="text-[10px] text-violet-500 font-semibold">Toque para escolher o treino</div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-violet-400" />
+                </div>
               ) : (
                 <div className="flex-1 p-3 rounded-xl bg-slate-50 border border-dashed border-slate-200 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
-                  <span className="text-slate-400 font-medium text-sm">Descanso Geral</span>
+                  <span className="text-slate-400 font-medium text-sm">Descanso</span>
                 </div>
               )}
             </div>
